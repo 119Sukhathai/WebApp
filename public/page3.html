@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Logs</title>
+  <link rel="stylesheet" href="style/page3.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="left">
+      <i class="bi bi-table"></i>
+      <span>View Logs</span>
+    </div>
+    <div class="right">
+      <div onclick="location.href='config.html'">
+        <i class="bi bi-house-gear"></i>
+        <span>Drone Config Viewer</span>
+      </div>
+      <div onclick="location.href='page2.html'">
+        <i class="bi bi-thermometer-half"></i>
+        <span>Temperature Log Form</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Created</th>
+            <th>Country</th>
+            <th>Drone ID</th>
+            <th>Drone Name</th>
+            <th>Celsius</th>
+          </tr>
+        </thead>
+        <tbody id="logsTableBody">
+          <!-- Logs will be displayed here -->
+        </tbody>
+      </table>
+      <div class="message" id="message"></div>
+    </div>
+  </main>
+
+  <script>
+    // ฟังก์ชันเพื่อดึงข้อมูล Logs และแสดงในตาราง
+    async function fetchLogs() {
+      try {
+        const droneId = localStorage.getItem('drone_id'); // หรือดึงจาก localStorage
+        console.log("Fetching logs for Drone ID:", droneId); // ตรวจสอบ drone_id ที่ใช้ในการดึงข้อมูล
+        const response = await fetch(`/logs?drone_id=${droneId}`);
+
+        // ตรวจสอบว่า response ok หรือไม่
+        if (!response.ok) {
+          throw new Error('Failed to fetch logs');
+        }
+
+        const logs = await response.json(); // ดึงข้อมูล JSON
+
+        // เช็คว่า logs มีข้อมูลหรือไม่
+        console.log('Fetched logs:', logs);
+
+        // เรียงลำดับข้อมูลจากวันที่ใหม่ไปเก่าที่สุด (เรียงตาม created)
+        const sortedLogs = logs.sort((a, b) => new Date(b.created) - new Date(a.created));
+
+        // จำกัดให้แสดงแค่ 25 รายการล่าสุด
+        const limitedLogs = sortedLogs.slice(0, 25);
+
+        // หากมีข้อมูลให้แสดงในตาราง
+        displayLogs(limitedLogs);
+    } catch (error) {
+        console.error(error);
+        document.getElementById("message").innerHTML = "<p style='color:red;'>Error fetching logs</p>";
+    }
+}
+    
+    function displayLogs(logs) {
+      const logsTableBody = document.getElementById("logsTableBody");
+
+      // ตรวจสอบว่า logs มีข้อมูลหรือไม่
+      if (!logs || logs.length === 0) {
+        console.log('No logs available');
+        logsTableBody.innerHTML = "<tr><td colspan='5'>No logs available.</td></tr>";
+        return;
+      }
+
+      logs.forEach(log => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${log.created}</td>
+          <td>${log.country}</td>
+          <td>${log.drone_id}</td>
+          <td>${log.drone_name}</td>
+          <td>${log.celsius}</td>
+        `;
+        logsTableBody.appendChild(row);
+      });
+    }
+
+    // Fetch logs on page load
+    fetchLogs();
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temperature Log Form</title>
+  <link rel="stylesheet" href="style/page2.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="left">
+      <i class="bi bi-thermometer-half"></i>
+      <span>Temperature Log Form</span>
+    </div>
+    <div class="right">
+      <div onclick="location.href='config.html'">
+        <i class="bi bi-house-gear"></i>
+        <span>Drone Config Viewer</span>
+      </div>
+      <div onclick="location.href='page3.html'">
+        <i class="bi bi-table"></i>
+        <span>View Logs</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <form id="logForm">
+      <label for="celsius">Temperature (°C):</label>
+      <input type="number" id="celsius" name="celsius" required>
+      <button type="submit">Submit Data</button>
+      <div class="message" id="message"></div>
+    </form>
+  </main>
+  <script>
+    document.getElementById("logForm").addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const celsius = document.getElementById("celsius").value;
+  const messageDiv = document.getElementById("message");
+
+  try {
+    const config = JSON.parse(localStorage.getItem('drone_config'));
+    if (!config) throw new Error("No config found. Please visit the config page first.");
+
+    const logData = {
+      drone_id: config.drone_id,
+      drone_name: config.drone_name,
+      country: config.country,
+      celsius: parseFloat(celsius)
+    };
+
+    console.log("Data to be sent:", logData); // เพิ่มบรรทัดนี้เพื่อดูข้อมูลที่ส่งไป
+
+    const response = await fetch('/logs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(logData)
+    });
+    
+    // ตรวจสอบการตอบกลับจากเซิร์ฟเวอร์
+    const result = await response.json();
+    console.log("Response from server:", result); // เพิ่มการแสดงผลของข้อมูลจากเซิร์ฟเวอร์
+
+    if (response.ok) {
+      messageDiv.innerHTML = "<p style='color:green;'>Log submitted successfully!</p>";
+      // setTimeout(() => {
+      //   window.location.href = 'page3.html'; // เปลี่ยนหน้าไปที่ page3.html
+      // }, 1000); // Delay 1 วินาที ก่อนเปลี่ยนหน้า
+    } else {
+      messageDiv.innerHTML = `<p style='color:red;'>Error: ${result.error || 'Failed to submit log'}</p>`;
+    }
+  } catch (err) {
+    console.error(err);
+    messageDiv.innerHTML = `<p style='color:red;'>${err.message}</p>`;
+  }
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drone Config Viewer</title>
+  <link rel="stylesheet" href="style/config.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <i class="bi bi-house-gear"></i>
+      Drone Config Viewer
+    </div>
+    <div class="header-right">
+      <a href="page2.html" class="header-button">
+        <i class="bi bi-thermometer-half"></i> Temperature Log Form
+      </a>
+      <a href="page3.html" class="header-button">
+        <i class="bi bi-table"></i> View Logs
+      </a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="drone-img">
+      <img src="style/dron.png" alt="Drone">
+    </div>
+
+    <div class="config-box" id="config">
+      Loading...
+    </div>
+  </div>
+
+  <script>
+    fetch('/config-data')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.drone_id) {
+          localStorage.setItem('drone_id', data.drone_id);
+          localStorage.setItem('drone_config', JSON.stringify(data));
+        }
+
+        document.getElementById('config').innerHTML = `
+          <strong>Drone ID:</strong> ${data.drone_id}<br>
+          <strong>Drone Name:</strong> ${data.drone_name}<br>
+          <strong>Light:</strong> ${data.light}<br>
+          <strong>Country:</strong> ${data.country}
+        `;
+      })
+      .catch(err => {
+        document.getElementById('config').innerHTML = `<p style="color:red;">Error loading config</p>`;
+        console.error(err);
+      });
+  </script>
+
+</body>
+</html>
+
+
+  <script>
+    fetch('/config-data')  // ดึงข้อมูลจาก API
+  .then(res => res.json())
+  .then(data => {
+    // ตรวจสอบว่ามีข้อมูล drone_id หรือไม่
+    if (data && data.drone_id) {
+      localStorage.setItem('drone_id', data.drone_id);  // เก็บ drone_id ลงใน localStorage
+      localStorage.setItem('drone_config', JSON.stringify(data));  // เก็บข้อมูล config อื่นๆ
+      console.log("Drone ID stored in localStorage:", data.drone_id);  // ตรวจสอบใน Console
+    }
+
+    // แสดงข้อมูลใน UI
+    const configDiv = document.getElementById('config');
+    configDiv.innerHTML = `
+      <div class="config-item"><strong>Drone ID:</strong> ${data.drone_id}</div>
+      <div class="config-item"><strong>Drone Name:</strong> ${data.drone_name}</div>
+      <div class="config-item"><strong>Light:</strong> ${data.light}</div>
+      <div class="config-item"><strong>Country:</strong> ${data.country}</div>
+    `;
+  })
+  .catch(err => {
+    document.getElementById('config').innerHTML = `<p style="color:red;">Error loading config</p>`;
+    console.error(err);
+  });
+
+    // // ตอนแรกดึง config จาก backend ที่อ่านค่าจาก .env (ฝั่ง server)
+    // fetch('/config-data')
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     const configDiv = document.getElementById('config');
+    //     configDiv.innerHTML = `
+    //       <div class="config-item"><strong>Drone ID:</strong> ${data.drone_id}</div>
+    //       <div class="config-item"><strong>Drone Name:</strong> ${data.drone_name}</div>
+    //       <div class="config-item"><strong>Light:</strong> ${data.light}</div>
+    //       <div class="config-item"><strong>Country:</strong> ${data.country}</div>
+    //     `;
+
+    //     // เก็บไว้ใน localStorage สำหรับใช้หน้าอื่น
+    //     localStorage.setItem('drone_config', JSON.stringify(data));
+    //   })
+    //   .catch(err => {
+    //     document.getElementById('config').innerHTML = `<p style="color:red;">Error loading config</p>`;
+    //     console.error(err);
+    //   });
+  </script>
+</body>
+</html>
