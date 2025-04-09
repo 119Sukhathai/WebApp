@@ -18,6 +18,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(process.cwd(),'public','config.html'));
 });
 
+// app.listen(3000, '0.0.0.0', () => {
+//   console.log(`Server running`);
+// });
 
 // Drone Config Server (Google Script)
 const droneConfigServerUrl = 'https://script.google.com/macros/s/AKfycbzwclqJRodyVjzYyY-NTQDb9cWG6Hoc5vGAABVtr5-jPA_ET_2IasrAJK4aeo5XoONiaA/exec';

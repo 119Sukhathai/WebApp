@@ -8,22 +8,20 @@
 </head>
 <body>
 
-  <header>
-    <div class="left">
-      <i class="bi bi-thermometer-half"></i>
-      <span>Temperature Log Form</span>
+  <div class="header">
+    <div class="header-left">
+      <i class="bi bi-house-gear"></i>
+      Temperature Log Form
     </div>
-    <div class="right">
-      <div onclick="location.href='config.html'">
-        <i class="bi bi-house-gear"></i>
-        <span>Drone Config Viewer</span>
-      </div>
-      <div onclick="location.href='page3.html'">
-        <i class="bi bi-table"></i>
-        <span>View Logs</span>
-      </div>
+    <div class="header-right">
+      <a href="config.html" class="header-button">
+        <i class="bi bi-thermometer-half"></i> Drone Config Viewer
+      </a>
+      <a href="page3.html" class="header-button">
+        <i class="bi bi-table"></i> View Logs
+      </a>
     </div>
-  </header>
+  </div>
 
   <main>
     <form id="logForm">
@@ -33,6 +31,7 @@
       <div class="message" id="message"></div>
     </form>
   </main>
+
   <script>
     document.getElementById("logForm").addEventListener("submit", async function(event) {
   event.preventDefault();

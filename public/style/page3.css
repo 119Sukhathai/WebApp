@@ -1,82 +1,84 @@
-
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('bg.jpg') no-repeat center center fixed;
-    background-size: cover;
-  }
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    padding: 10px 30px;
-  }
+/* ✅ เหมือน config.html */
+.header {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
 
-  .left, .right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
 
-  .left i {
-    font-size: 28px;
-    margin-right: 10px;
-  }
+.header-right {
+  display: flex;
+  gap: 2rem;
+}
 
-  .left span {
-    font-weight: bold;
-    font-size: 28px;
-  }
+.header-button {
+  background-color: #e0e0e0;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
 
-  .right div {
-    background-color: #e0e0e0;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
+.header-button:hover {
+  background-color: #ccc;
+}
 
-  .right div:hover {
-    background-color: #d0d0d0;
-  }
+/* ส่วนตาราง ไม่เปลี่ยน */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-  }
+table {
+  width: 90%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-  table {
-    width: 90%;
-    max-width: 1000px;
-    border-collapse: collapse;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    border-radius: 10px;
-    overflow: hidden;
-  }
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}
 
-  th, td {
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    text-align: left;
-  }
+th {
+  background-color: #007bff;
+  color: white;
+}
 
-  th {
-    background-color: #007bff;
-    color: white;
-  }
+td {
+  background-color: #fff;
+}
 
-  td {
-    background-color: #fff;
-  }
-
-  .message {
-    margin-top: 1rem;
-    text-align: center;
-  }
+.message {
+  margin-top: 1rem;
+  text-align: center;
+}
